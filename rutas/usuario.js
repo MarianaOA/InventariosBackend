@@ -36,7 +36,7 @@ router.post("/guardar", async function (req, res) {
     // validamos nombre
 
     const validarNombre = req.body.nombre;
-    let patterNombre = new RegExp("^[a-zA-Z]+$", "i");
+    let patterNombre = /[a-zA-Z\t\h]+|(^$)/i;
 
     if (!patterNombre.test(validarNombre)) {
       return res.send("No es un nombre válido, solo se permiten letras");
@@ -45,11 +45,10 @@ router.post("/guardar", async function (req, res) {
     // validamos estado
 
     const validarEstado = req.body.estado;
-    let patterEstado = ["Activo", "Inactivo"];
 
-    if (!patterEstado.includes(validarEstado)) {
+    if (validarEstado != "Activo" && validarEstado != "Inactivo") {
       return res.send(
-        "No es un estado válido, solo se permiten los siguientes estados: Activo e Inactivo"
+        'El estado ingresado no es válido, solo se aceptan los estados: "Activo" y "Inactivo"'
       );
     }
 
@@ -57,7 +56,7 @@ router.post("/guardar", async function (req, res) {
     usuario.nombre = req.body.nombre;
     usuario.email = req.body.email;
     usuario.estado = req.body.estado;
-    usuario.fechaCreacion = new Date();
+    usuario.fechaCreacion = req.body.fechaCreacion;
     usuario.fechaActualizacion = new Date();
 
     usuario = await usuario.save();
@@ -71,14 +70,12 @@ router.post("/guardar", async function (req, res) {
 
 router.put("/editar/:usuarioId", async function (req, res) {
   try {
-
     let usuario = await Usuario.findById(req.params.usuarioId);
 
-        if(!usuario){
-            return res.send("El usuario ingresado no existe");
-        }
+    if (!usuario) {
+      return res.send("El usuario ingresado no existe");
+    }
 
-        
     // validamos email
 
     const validarExistenciaUsuario = await Usuario.findOne({
@@ -101,7 +98,7 @@ router.put("/editar/:usuarioId", async function (req, res) {
     // validamos nombre
 
     const validarNombre = req.body.nombre;
-    let patterNombre = new RegExp("^[a-zA-Z]+$", "i");
+    let patterNombre = /[a-zA-Z\t\h]+|(^$)/i;
 
     if (!patterNombre.test(validarNombre)) {
       return res.send("No es un nombre válido, solo se permiten letras");
@@ -110,11 +107,10 @@ router.put("/editar/:usuarioId", async function (req, res) {
     // validamos estado
 
     const validarEstado = req.body.estado;
-    let patterEstado = ["Activo", "Inactivo"];
 
-    if (!patterEstado.includes(validarEstado)) {
+    if (validarEstado != "Activo" && validarEstado != "Inactivo") {
       return res.send(
-        "No es un estado válido, solo se permiten los siguientes estados: Activo e Inactivo"
+        'El estado ingresado no es válido, solo se aceptan los estados: "Activo" y "Inactivo"'
       );
     }
 

@@ -34,7 +34,7 @@ router.post('/guardar', async function(req, res){
         let tipoEquipo = new TipoEquipo();
         tipoEquipo.nombre = req.body.nombre;
         tipoEquipo.estado = req.body.estado;
-        tipoEquipo.fechaCreacion = new Date();
+        tipoEquipo.fechaCreacion = req.body.fechaCreacion;
         tipoEquipo.fechaActualizacion = new Date();
 
         tipoEquipo = await tipoEquipo.save();

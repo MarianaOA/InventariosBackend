@@ -52,14 +52,6 @@ router.post("/guardar", async function (req, res) {
       return res.send("No es una descripción válida");
     }
 
-    // validamos foto
-
-    const validarFoto = req.body.foto;
-    let patternFoto = /(http[s]?:\/\/.*\.(?:png|jpg|gif|svg|jpeg))/i;
-
-    if (!patternFoto.test(validarFoto)) {
-      return res.send("No es una url válida");
-    }
 
     // validamos precio
     const validarPrecio = req.body.precio;
@@ -145,14 +137,7 @@ router.put("/editar/:inventarioId", async function (req, res) {
       return res.send("No es una descripción válida");
     }
 
-    // validamos foto
-
-    const validarFoto = req.body.foto;
-    let patternFoto = /(http[s]?:\/\/.*\.(?:png|jpg|gif|svg|jpeg))/i;
-
-    if (!patternFoto.test(validarFoto)) {
-      return res.send("No es una url válida");
-    }
+   
 
     // validamos precio
     const validarPrecio = req.body.precio;
@@ -194,6 +179,7 @@ router.put("/editar/:inventarioId", async function (req, res) {
     inventario.marca = req.body.marca._id;
     inventario.tipoEquipo = req.body.tipoEquipo._id;
     inventario.estadoEquipo = req.body.estadoEquipo._id;
+    inventario.fechaCreacion = new Date();
     inventario.fechaActualizacion = new Date();
     // guardamos
     inventario = await inventario.save();
